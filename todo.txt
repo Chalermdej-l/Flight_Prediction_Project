@@ -1,0 +1,2 @@
+1.create a script to trin data as pipeline
+2.create a script to gen test data output as json pipeline (or upload to downlaod for easier access)
