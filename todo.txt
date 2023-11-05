@@ -1,2 +1,11 @@
 1.create a script to trin data as pipeline
 2.create a script to gen test data output as json pipeline (or upload to downlaod for easier access)
+
+--
+
+1.experiencment with code to ouptut to another steram -d 
+2.caret a pipeline for train data gen test data
+3.craet a pipelie to consumer data -d 
+4.dockerlize the prod - d
+5.terrafom to create any need infra
+6.document and reproduce

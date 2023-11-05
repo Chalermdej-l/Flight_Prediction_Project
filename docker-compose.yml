@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:  
+  producer:
+    restart: always
+    image: producer
+    environment:
+      - EVENT_HUB_CONNECTION_PRODUCER_SEND_KEY=${EVENT_HUB_CONNECTION_PRODUCER_SEND_KEY}
+      - EVENT_HUB_NAME_PRODUCER=${EVENT_HUB_NAME_PRODUCER}
+    expose:
+        - 443    
+    volumes:
+        - ${DATA_PATH}:/data
+    ports:
+        - "440:443"    
+    command: python code/producer.py
+    profiles: ["producer"]
+
+  consumer:
+    restart: always
+    image: consumer
+    environment:
+      - EVENT_HUB_CONNECTION_STR=${EVENT_HUB_CONNECTION_PRODUCER_LISTEN_KEY}
+      - EVENT_HUB_NAME=${EVENT_HUB_NAME_PRODUCER}
+      - EVENT_HUB_CONSUMER_GROUP_EVENT=${EVENT_HUB_CONSUMER_GROUP_EVENT}
+      - BLOB_STORAGE_CONNECTION_STRING=${BLOB_STORAGE_CONNECTION_PRODUCER}
+      - BLOB_CONTAINER_NAME=${BLOB_CONTAINER_NAME_PRODUCER}
+      - EVENT_HUB_CONNECTION_STR_OUT=${EVENT_HUB_CONNECTION_CONSUMER_SEND_KEY}
+      - EVENT_HUB_NAME_OUT=${EVENT_HUB_NAME_CONSUMER}
+    expose:
+        - 443   
+    ports:
+        - "450:443"    
+    command: python code/consumer.py
+    profiles: ["consumer"]
+
+  predict:
+    restart: always
+    image: predict
+    environment:
+      - BLOB_STORAGE_CONNECTION_STRING=${BLOB_STORAGE_CONNECTION_CONSUMER}
+      - BLOB_CONTAINER_NAME=${BLOB_CONTAINER_NAME_CONSUMER}
+      - EVENT_HUB_CONNECTION_STR=${EVENT_HUB_CONNECTION_CONSUMER_LISTEN_KEY}
+      - EVENT_HUB_NAME_OUT=${EVENT_HUB_NAME_CONSUMER}
+      - EVENT_HUB_CONSUMER_GROUP_PREDICT=${EVENT_HUB_CONSUMER_GROUP_PREDICT}
+
+    expose:
+        - 443   
+    ports:
+        - "460:443"    
+    command: python code/predict.py
+    profiles: ["predict"]
