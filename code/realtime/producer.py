@@ -35,11 +35,11 @@ async def run():
     # logging.info('Finish pushing event...')
     
 def fetchtestrecord():
-    data = open('data/samplerecord-smallest.json','r')  
+    data = open('data/samplerecord','r')  
     data = json.load(data)
     return data
 
 if __name__ == "__main__":
-    print('Script Starting...')
+    print('Producer Starting...')
     asyncio.run(run())
 

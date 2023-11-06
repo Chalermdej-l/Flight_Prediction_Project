@@ -46,11 +46,11 @@ def genmockdata(data):
 
 def main():
     
-    df = pd.read_parquet('features_added.parquet')
+    df = pd.read_parquet('data/filterdata.parquet')
 
     used_col = [ 'FlightDate', 'CRSElapsedTime', 'Distance','Marketing_Airline_Network', 'DayofWeek','Holidays','CRSDepTimeHour','CRSDepTimeMinute' ,'CRSArrTimeHour','CRSArrTimeMinute','DestCityName','OriginCityName'] 
 
-    sample_record = 3000
+    sample_record = 50
     df_sample = df[used_col].sample(sample_record).sort_values('FlightDate').reset_index(drop=True)
     df_sample['FlightID'] = [str(uuid.uuid4()) for i in range(sample_record) ]
     df_sample[['DepDelay', 'TaxiOut','WeatherDelay']] = 0.0
@@ -65,10 +65,9 @@ def main():
 
     df_combine= pd.concat([df_new,df_sample],axis=0)
     df_combine = df_combine.sort_values(['FlightID','DepDelay','TaxiOut','WeatherDelay']).reset_index(drop=True)
-    df_combine.to_csv('../../data/sample_data.parquet',index=False)
 
     data_json = df_combine.to_json(orient='records')
-    with open('../../data/samplerecord.json','w+') as file:
+    with open('data/samplerecord.json','w+') as file:
         file.write(data_json)
 
 if __name__ =="__main__":

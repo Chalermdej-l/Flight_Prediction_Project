@@ -43,3 +43,7 @@ variable "storage_account_name_function" {
 variable "image_tag" {
     type = string
 }
+variable "docker_image" {
+    type = string
+}
+

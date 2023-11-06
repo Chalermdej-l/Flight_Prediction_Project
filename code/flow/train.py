@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 import pandas as pd
 import matplotlib.pyplot as plt
 import pickle
+pd.options.mode.chained_assignment = None
 
 def convert_timeperiod(time):
     time = int(time)
@@ -67,7 +68,13 @@ def preparedata(data):
     
     # Take the top 25 location to convert parameter
     top_state = ['CA_CA', 'TX_TX', 'NY_FL', 'FL_NY', 'CA_TX', 'TX_CA', 'FL_TX', 'HI_HI', 'TX_FL', 'FL_GA', 'CA_NV', 'NV_CA', 'GA_FL', 'CA_WA', 'CA_AZ', 'AZ_CA', 'WA_CA', 'CA_CO', 'CO_CA', 'FL_NC', 'NC_FL', 'TX_CO', 'CO_TX', 'NJ_FL', 'FL_NJ', 'IL_FL', 'FL_IL', 'CA_HI', 'FL_FL', 'HI_CA', 'CO_CO', 'NC_NC', 'NY_NC', 'NY_IL', 'IL_NY', 'NC_NY', 'IL_TX', 'TX_IL', 'WA_WA', 'PA_FL', 'FL_PA', 'LA_TX', 'OR_CA', 'TX_LA', 'CA_OR', 'CA_UT', 'TX_GA', 'DC_FL', 'UT_CA', 'GA_TX']
+       
     data['state_combine'] = data['state_combine'].apply(lambda x: x if x in top_state else 'Other')
+    
+    cat_col = ['Marketing_Airline_Network', 'DayofWeek','Holidays', 'CRSDepTimeHourDis', 'WheelsOffHourDis','CRSArrTimeHourDis', 'state_combine', 'location_yn']
+    int_col = [ 'DepDelay', 'TaxiOut', 'CRSElapsedTime','ActualElapsedTime', 'Distance', 'WeatherDelay']
+
+    data = data[cat_col + int_col] 
 
     return data
 
@@ -81,37 +88,44 @@ def splitdata(data):
     return  train_x,train_y,test_x,test_y
 
 def savemodel(model,dv):
-    pickle.dump(model, open('../../artifact/model.sav', 'wb+'))
-    pickle.dump(dv,open('../../artifact/dv.sav', 'wb+'))
+    pickle.dump(model, open('artifact/model.sav', 'wb+'))
+    pickle.dump(dv,open('artifact/dv.sav', 'wb+'))
 
 
 def main():
+    print('Loading data...')
+    # Loading data  
+    df = pd.read_parquet('data/features_added.parquet')
+    df = df.query("Year >=2023")
+    df.to_parquet('data/filterdata.parquet',index=False)
+    df = preparedata(df)
 
-    # Loading data
-    df = pd.read_parquet('../../data/features_added.parquet')
-    df_par= df.query("Year >=2022")
-    df_par = preparedata(df_par)
-
+    print('Spliting data...')
     # Split data
-    train_x,train_y,test_x,test_y = splitdata(df_par)
+    train_x,train_y,test_x,test_y = splitdata(df)
     
+    print('Converting data...')
     # Fit DV
     dv= DictVectorizer()
     train_x_dv,dv = convert_preprocess(train_x,dv,'train')
     val_x_dv,dv = convert_preprocess(test_x,dv)
-
+    
+    print('Traning model...')
     # Train model
     model = LinearRegression()
     model.fit(train_x_dv,train_y)
     predict = model.predict(val_x_dv)
 
+    print('Scoring model...')
     # Eveulate model
     score,r2_score = eveulatemodel(test_y,predict)
     print(f'Model got score {score}')
     print(f'Model got r2 score {r2_score}')
 
+    print('Save model to output')
     # Save model
     savemodel(model,dv)
 
 if __name__ =="__main__":
+    print('Script start...')
     main()

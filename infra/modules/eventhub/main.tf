@@ -77,19 +77,19 @@ resource "azurerm_eventhub_authorization_rule" "eventhub_producer_send" {
 }
 
 output "eventhub_consumer_listen_auth_rule" {
-  value = azurerm_eventhub_authorization_rule.eventhub_consumer_listen
+  value = azurerm_eventhub_authorization_rule.eventhub_consumer_listen.primary_connection_string
 }
 
 output "eventhub_consumer_send_auth_rule" {
-  value = azurerm_eventhub_authorization_rule.eventhub_consumer_send
+  value = azurerm_eventhub_authorization_rule.eventhub_consumer_send.primary_connection_string
 }
 
 output "eventhub_producer_listen_auth_rule" {
-  value = azurerm_eventhub_authorization_rule.eventhub_producer_listen
+  value = azurerm_eventhub_authorization_rule.eventhub_producer_listen.primary_connection_string
 }
 
 output "eventhub_producer_send_auth_rule" {
-  value = azurerm_eventhub_authorization_rule.eventhub_producer_send
+  value = azurerm_eventhub_authorization_rule.eventhub_producer_send.primary_connection_string
 }
 
 output "eventhub_consumer_name" {

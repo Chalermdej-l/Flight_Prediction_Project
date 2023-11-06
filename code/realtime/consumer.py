@@ -4,7 +4,6 @@ import json
 import datetime
 import functools
 import os 
-# import logging
 from azure.eventhub import EventData
 from azure.eventhub.aio import EventHubProducerClient
 from azure.eventhub.aio import EventHubConsumerClient
@@ -76,30 +75,24 @@ async def on_event(partition_context, events, model, dv):
 
         output = constructoutput(pred,data_string,model)
 
-        # logging the event data.
+        
         print(
              'Received the event: "{}" from the partition with ID: "{}"'.format(
                 data_string, partition_context.partition_id
             )
         )      
-        # logging.info(
-        #     'Received the event: "{}" from the partition with ID: "{}"'.format(
-        #         data_string, partition_context.partition_id
-        #     )
-        # )
+        
         print('------------------------------------')
-        # logging.info('------------------------------------')
+       
         print(f'Predict result = {pred}')
-        # logging.info(f'Predict result = {pred}')
+       
         print('Sending result to output stream...')
-        # logging.info('Sending result to output stream...')
-
+       
         
         await  outputresult(output)
         
         print('------------------------------------')
-        # logging.info('------------------------------------')
-
+       
     await partition_context.update_checkpoint(event)
 
 
@@ -132,6 +125,7 @@ async def main():
         )
     
 if __name__ == "__main__":
+    print('Consumer Starting...')
     loop = asyncio.get_event_loop()
     # Run the main method.
     loop.run_until_complete(main())

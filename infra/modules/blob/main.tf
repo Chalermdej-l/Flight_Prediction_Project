@@ -40,17 +40,17 @@ resource "azurerm_storage_account" "airline_storage_account_predict" {
   }
 }
 
-resource "azurerm_storage_account" "airline_function_app" {
-  name                     = var.storage_account_name_function
-  resource_group_name      = var.resource_group_name
-  location                 = var.resource_group_region
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+# resource "azurerm_storage_account" "airline_function_app" {
+#   name                     = var.storage_account_name_function
+#   resource_group_name      = var.resource_group_name
+#   location                 = var.resource_group_region
+#   account_tier             = "Standard"
+#   account_replication_type = "LRS"
 
-  lifecycle {
-    prevent_destroy = false
-  }
-}
+#   lifecycle {
+#     prevent_destroy = false
+#   }
+# }
 
 
 resource "azurerm_storage_container" "airline_storage_consumer" {
@@ -78,9 +78,9 @@ output "predict_connection_string" {
     value = azurerm_storage_account.airline_storage_account_predict.primary_connection_string
 }
 
-output "function_name" {
-    value = azurerm_storage_account.airline_function_app.name
-}
-output "function_key" {
-    value = azurerm_storage_account.airline_function_app.primary_access_key
-}
+# output "function_name" {
+#     value = azurerm_storage_account.airline_function_app.name
+# }
+# output "function_key" {
+#     value = azurerm_storage_account.airline_function_app.primary_access_key
+# }

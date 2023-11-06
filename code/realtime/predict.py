@@ -44,7 +44,7 @@ async def main():
 
     
 if __name__ == "__main__":
-
+    print('Predicter Starting...')
     loop = asyncio.get_event_loop()
     # Run the main method.
     loop.run_until_complete(main())
