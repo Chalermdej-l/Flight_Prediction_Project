@@ -1,9 +1,0 @@
-*.csv
-/code/experiment/realtime
-*.parquet
-/data
-/artifact
-.gitignore
-.env
-.txt
-todo.txt
