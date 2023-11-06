@@ -55,7 +55,7 @@ To reproduce this project you would need [Azure Account](https://azure.microsoft
 You also need below package
 
 1. [Makefile](https://pypi.org/project/make/) `pip install  make`
-2. [Azure CLI]https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+2. [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 3. [Terraform](https://developer.hashicorp.com/terraform/downloads)
 4. [Docker](https://www.docker.com/)
 5. [Docker Compose](https://docs.docker.com/compose/)
