@@ -2,4 +2,3 @@ pandas
 matplotlib
 scikit-learn
 matplotlib
-https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli

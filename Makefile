@@ -98,3 +98,6 @@ trainmodel:
 
 gensample:
 	python code\flow\gensampledata.py
+
+prerequisite:
+	pip install -r  requirement.txt
