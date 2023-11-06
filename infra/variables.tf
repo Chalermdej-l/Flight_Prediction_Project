@@ -40,9 +40,9 @@ variable "container_image_name" {
 variable "storage_account_name_function" {
     type = string
 }
-variable "image_tag" {
-    type = string
-}
+# variable "image_tag" {
+#     type = string
+# }
 variable "docker_image" {
     type = string
 }

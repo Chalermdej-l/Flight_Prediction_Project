@@ -87,14 +87,6 @@ infra-output:
 	echo
 	#------------------
 
-
-infra-prep:
-	terraform output -raw -state=infra/terraform.tfstate private_key_pem > key/private.pem
-	terraform output -raw -state=infra/terraform.tfstate public_key_openssh > key/public.txt
-	terraform output -state=infra/terraform.tfstate -json > output.json
-	python code/output.py
-	python infra/code/createtable.py ${DB_NAME_MONI} ${AWS_USER_DB} ${AWS_PASS_DB} ${AWS_DB_MONITOR} 5432
-
 infra-config:
 	az login
 
@@ -104,5 +96,5 @@ envupdate:
 trainmodel:
 	python code\flow\train.py
 
-generatesample:
+gensample:
 	python code\flow\gensampledata.py

@@ -35,7 +35,7 @@ async def run():
     # logging.info('Finish pushing event...')
     
 def fetchtestrecord():
-    data = open('data/samplerecord','r')  
+    data = open('data/samplerecord.json','r')  
     data = json.load(data)
     return data
 
